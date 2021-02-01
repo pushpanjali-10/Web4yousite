@@ -1,7 +1,7 @@
 h1{
     text-align: center;
   }
-  button{
+  .visit{
     text-align:center;
     width:350px;
     border:none;
@@ -9,7 +9,7 @@ h1{
     transition:0.3s;
     height:50px;
   }
-  button:hover{
+  .visit:hover{
     background-color:aqua;
   }
   .card{
@@ -19,7 +19,12 @@ h1{
     margin-left:0px !important;
     padding-left:0px !important;
   }
-  .vsit{
-    margin-right:px !important;
-    padding-left:0px !important;
+  .fa-heart{
+    color: black;
+  }
+  .like{
+    width:auto;
+    height:auto;
+    border:none;
+    background-color:white;
   }
