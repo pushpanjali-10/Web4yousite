@@ -27,7 +27,12 @@ const Post = mongoose.model("Post", postSchema);
 
 
 app.get("/",function(req,res){
-    res.render("home");
+    Post.find({}, function(err, posts){
+        console.log(posts);
+        res.render("home", {
+          posts: posts
+          });
+      });
 });
 
 app.get("/compose",function(req,res){
@@ -45,7 +50,6 @@ app.post("/compose",function(req,res){
             res.redirect("/");
         }
       });
-    res.redirect("/");
 });
 
 app.listen(3000, function() {
