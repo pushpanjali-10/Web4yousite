@@ -45,11 +45,23 @@ app.post("/compose",function(req,res){
         content: req.body.postBody
       });
 
-      post.save(function(err){
-        if (!err){
-            res.redirect("/");
-        }
+      Post.findOne({title: req.body.postTitle},function(err,obj){
+          if(!obj){
+            post.save(function(err){
+                if (!err){
+                    res.redirect("/");
+                }
+              });
+          }else{
+              res.redirect("/exists");
+          }
       });
+
+      
+});
+
+app.get("/exists",function(req,res){
+    res.render("exists");
 });
 
 app.listen(3000, function() {
