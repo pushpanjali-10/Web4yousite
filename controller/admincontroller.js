@@ -1,5 +1,7 @@
 const Post = require('../models/post')
 
+var currID;
+
 exports.getHome = (req,res,next) => {
     Post.find({}, function(err, posts){
         console.log(posts);
@@ -13,15 +15,40 @@ exports.getCompose = (req,res,next)=> {
     res.render("compose");
 }
 
+exports.postDelCnf = (req,res,next)=> {
+
+    currID = req.body.checkbox;
+    console.log(currID);
+    res.render("delCnf");
+  }
+
+exports.postDelete = (req,res,next)=> {
+    const currEmail = req.body.delEmail;
+    Post.findOne({_id: currID},function(err,obj){
+      if(obj.email == currEmail){
+        Post.findByIdAndRemove(currID,function(err){
+          if(!err){
+            console.log("Successfully Deleted");
+            res.redirect("/");
+          }
+        });
+      }else{
+        res.render("Delete");
+      }
+    })
+}
+
 exports.postCompose = (req,res,next) => {
     const title = req.body.postTitle;
     const imageUrl = req.file.path;
-    const content = req.body.postBody
+    const content = req.body.postBody;
     console.log(imageUrl)
     const post = new Post({
         title: title,
         imageUrl : imageUrl,
-        content: content
+        content: content,
+        name: req.body.composerName,
+        email: req.body.composerEmail
       });
       console.log('post created')
       Post.findOne({title: title},function(err,obj){
