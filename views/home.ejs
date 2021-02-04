@@ -15,6 +15,7 @@
           </div>
           <div class="col">
             <p><%= post.content.substring(0,100) + "..." %></p>
+            <p><%= post._id %></p>
             
             <button class="visit">View Blog</button>
           </div>
@@ -26,6 +27,11 @@
               <!-- <i class="fa fa-heart" aria-hidden="true"></i> -->
           
             </button>
+            <form action="/delCnf" method="post">
+              <div class="form-group">
+                <input type="checkbox" onChange="this.form.submit()" name="checkbox" value="<%= post._id %>">
+              </div>
+            </form>
             
             <div class="like_count">
               Total number of likes--
