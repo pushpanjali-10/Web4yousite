@@ -1,6 +1,9 @@
 <%- include("partials/header") -%>
 
 <% posts.forEach(function(post){ %>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
 <script type="text/javascript">
   var c = 0;//we will insert the value of c(count) in our database and call it here
 </script>
@@ -22,7 +25,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <button class="like" onclick="like()">
+            <button class="like">
               like
               <!-- <i class="fa fa-heart" aria-hidden="true"></i> -->
           
