@@ -1,6 +1,10 @@
 <%- include("partials/header") -%>
 
 <% posts.forEach(function(post){ %>
+<script type="text/javascript">
+  var c = 0;//we will insert the value of c(count) in our database and call it here
+</script>
+
 <div>
     <div class="container-fluid card">
         <h1><%= post.title %></h1>
@@ -22,6 +26,24 @@
               <!-- <i class="fa fa-heart" aria-hidden="true"></i> -->
           
             </button>
+            
+            <div class="like_count">
+              Total number of likes--
+              <span> 0 </span>
+              <script>
+              $(document).ready(function(){
+                $(".like").click(function(){
+                    c=c+1;
+                     console.log(c);
+                     $(".like_count span").html(c)
+                     
+                      });
+                         });
+                //document.write(c)
+                
+               </script>
+                  
+            </div>
             
           </div>
         </div>
