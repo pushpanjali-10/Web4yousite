@@ -11,6 +11,7 @@
           </div>
           <div class="col">
             <p><%= post.content.substring(0,100) + "..." %></p>
+            <p><%= post._id %></p>
             
             <button class="visit">View Blog</button>
           </div>
@@ -22,6 +23,11 @@
               <!-- <i class="fa fa-heart" aria-hidden="true"></i> -->
             </script>
             </button>
+            <form action="/delete" method="post">
+              <div class="form-group">
+                <input type="checkbox" onChange="this.form.submit()" name="checkbox" value="<%= post._id %>">
+              </div>
+            </form>
             
           </div>
         </div>
