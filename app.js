@@ -4,12 +4,33 @@
 // ----Requirements----
 const express = require("express");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
 const mongoose = require("mongoose");
 const { identity, remove } = require("lodash");
 
+const adminRoutes = require('./routes/admin')
+const multer = require('multer');
 
 const app = express();
+
+const filestorage =  multer.diskStorage({
+    destination : (req,file,cb)=>{
+        cb(null,'./images');
+    },
+    filename : (req,file,cb)=> {
+        cb(null,file.fieldname + Date.now() + '-' + file.originalname )
+    }
+})
+
+const filefilter = (req,file,cb) => {
+    if(file.mimetype === 'image/jpg'
+       || file.mimetype === 'image/jpeg'
+       || file.mimetype === 'image/png'){
+           cb(null,true)
+       }else{
+           cb(null,false)
+       }
+}
+
 
 app.set('view engine', 'ejs');
 
@@ -20,83 +41,94 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/web4you", {useNewUrlParser: true});
 
-const postSchema = {
-    title: String,
-    content: String,
-    email: String,
-    name: String
-};
 
-const Post = mongoose.model("Post", postSchema);
+
 
 var delID;
 
-app.get("/",function(req,res){
-    Post.find({}, function(err, posts){
-        // console.log(posts);
-        res.render("home", {
-          posts: posts
-          });
-      });
-});
 
-app.get("/compose",function(req,res){
-    res.render("compose");
-});
 
-app.post("/compose",function(req,res){
 
-    const posttitle = req.body.postTitle;
-    const postcontent =  req.body.postBody;
-    const email = req.body.composerEmail
-    const name = req.body.composerName;
+app.use('/images',express.static("images"));
+app.use(multer (
+      {
+        storage : filestorage,
+        fileFilter : filefilter
+     }
+ ).single('postimg')
+)
 
-    const post = new Post({
-        title: posttitle,
-        content: postcontent,
-        email: email,
-        name: name
-      });
+// const postSchema = {
+//     title: String,
+//     content: String
+// };
 
-      Post.findOne({title: posttitle},function(err,obj){
-          if(!obj){
-            post.save(function(err){
-                if (!err){
-                    res.redirect("/");
-                }
-              });
-          }else{
-              res.redirect("/exists");
-          }
-      }); 
-});
+// const Post = mongoose.model("Post", postSchema);
 
-app.get("/exists",function(req,res){
-    res.render("exists");
-});
 
-app.post("/delete",function(req,res){
+app.use(adminRoutes);
 
-    delID = req.body.checkbox;
-    res.render("delCnf");
-});
+// app.get("/",function(req,res){
+//     Post.find({}, function(err, posts){
+//         console.log(posts);
+//         res.render("home", {
+//           posts: posts
+//           });
+//       });
+// });
 
-app.post("/delCnf",function(req,res){
-    console.log(delID);
-    const delEmail = req.body.delEmail;
-    Post.findOne({_id: delID},function(err,post){
-        if(post.email == delEmail){
-            Post.findByIdAndRemove(delID, function(err){
-                if(!err){
-                  console.log("Successfully deleted...");
-                  res.redirect("/");
-                }
-              });
-        }else{
-            console.log("Cannot Delete!");
-        }
-    });
-});
+// app.get("/compose",function(req,res){
+//     res.render("compose");
+// });
+
+// app.post("/compose",function(req,res){
+//     const post = new Post({
+//         title: req.body.postTitle,
+//         content: req.body.postBody
+//       });
+
+//       Post.findOne({title: req.body.postTitle},function(err,obj){
+//           if(!obj){
+//             post.save(function(err){
+//                 if (!err){
+//                     res.redirect("/");
+//                 }
+//               });
+//           }else{
+//               res.redirect("/exists");
+//           }
+//       });
+
+      
+// });
+
+// app.get("/exists",function(req,res){
+//     res.render("exists");
+// });
+// mongoose.connect("mongodb://localhost:27017/web4you", {useNewUrlParser: true});
+
+// app.post("/delete",function(req,res){
+
+//     delID = req.body.checkbox;
+//     res.render("delCnf");
+// });
+
+// app.post("/delCnf",function(req,res){
+//     console.log(delID);
+//     const delEmail = req.body.delEmail;
+//     Post.findOne({_id: delID},function(err,post){
+//         if(post.email == delEmail){
+//             Post.findByIdAndRemove(delID, function(err){
+//                 if(!err){
+//                   console.log("Successfully deleted...");
+//                   res.redirect("/");
+//                 }
+//               });
+//         }else{
+//             console.log("Cannot Delete!");
+//         }
+//     });
+// });
 
 app.listen(3000, function() {
     console.log("Server started on port 3000");
