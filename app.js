@@ -40,12 +40,16 @@ app.get("/compose",function(req,res){
 });
 
 app.post("/compose",function(req,res){
+
+    const posttitle = req.body.postTitle;
+    const postcontent =  req.body.postBody;
+
     const post = new Post({
-        title: req.body.postTitle,
-        content: req.body.postBody
+        title: posttitle,
+        content: postcontent
       });
 
-      Post.findOne({title: req.body.postTitle},function(err,obj){
+      Post.findOne({title: posttitle},function(err,obj){
           if(!obj){
             post.save(function(err){
                 if (!err){
