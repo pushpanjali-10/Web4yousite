@@ -11,8 +11,10 @@ router.post('/compose',adminController.postCompose)
 
 router.get('/exists',adminController.getExists)
 
-router.post('/delCnf',adminController.postDelCnf)
+router.post('/delCnf/:id',adminController.postDelCnf)
 
 router.post('/delete',adminController.postDelete)
+
+// router.get('/delCnf',adminController.getDelCnf)
 
 module.exports = router
