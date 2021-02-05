@@ -1,6 +1,6 @@
 const Post = require('../models/post')
 
-var currID;
+
 
 exports.getHome = (req,res,next) => {
     Post.find({}, function(err, posts){
@@ -15,15 +15,23 @@ exports.getCompose = (req,res,next)=> {
     res.render("compose");
 }
 
+
+// exports.getDelCnf = (req, res, next)=> {
+//   res.render("delCnf");
+// }
+
 exports.postDelCnf = (req,res,next)=> {
 
-    currID = req.body.checkbox;
+    const currID =req.params.id;
     console.log(currID);
-    res.render("delCnf");
+    res.render("delCnf",{id : currID});
   }
+
 
 exports.postDelete = (req,res,next)=> {
     const currEmail = req.body.delEmail;
+    const currID = req.body.button;
+    console.log(currID);
     Post.findOne({_id: currID},function(err,obj){
       if(obj.email == currEmail){
         Post.findByIdAndRemove(currID,function(err){
