@@ -1,8 +1,9 @@
 "use strict";
 
-var Post = require('../models/post');
+const Post = require('../models/post');
 
 const User = require('../models/user');
+
 const passport = require('passport');
 
 exports.getHome = function (req, res, next) {
@@ -22,7 +23,7 @@ exports.getCompose = function (req, res, next) {
 
 
 exports.postCompose = function (req, res, next) {
-  var post = new Post({
+  const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody,
     name: req.body.composerName,
@@ -70,6 +71,8 @@ exports.postSignup = function (req,res,next) {
     if (!err){
       console.log('user saved');
         res.redirect("/");
+    }else{
+      console.log(err);
     }
   });
 };
