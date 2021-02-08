@@ -1,5 +1,14 @@
 const Post = require('../models/post')
 
+const fs = require('fs')
+
+
+const deleteFile = (filepath) => {
+  fs.unlink(filepath, (err)=> {
+    console.log(err);
+  })
+}
+
 
 
 exports.getHome = (req,res,next) => {
@@ -76,4 +85,31 @@ exports.postCompose = (req,res,next) => {
 
 exports.getExists = (req,res,next)=> {
     res.render("exists"); 
+}
+
+
+exports.deletePost = (req,res,next)=> {
+  const postId = req.params.postId
+ console.log('post deleting')
+ console.log(postId);
+
+  Post.findById({_id : postId})
+      .then(post => {
+        console.log('image deleting')
+        return deleteFile(post.imageUrl)
+      })
+      .then(result => {
+        console.log('post deleted')
+        Post.deleteOne({_id : postId} ,(err) => {
+          if(err){
+            console.log(err);
+            return
+          }
+          res.status(200).json({redirect : '/'})
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
 }
