@@ -41,16 +41,18 @@ exports.postSignup = (req,res,next) => {
   const password = req.body.password; 
   console.log(email + " " + firstName + " " + lastName + " " + password);
   const user = new User({
-    fname: firstName,
+    fName: firstName,
     lName: lastName,
     Email: email,
     Password: password
   });
   user.save(function(err){
+    console.log('callback working');
+    console.log(err);
+    console.log(email + " " + firstName + " " + lastName + " " + password);
     if (!err){
-      
-    console.log('user saved');
-        res.redirect("/");
+      console.log('user saved');
+      res.redirect("/");
     }
   });
 }
@@ -83,6 +85,8 @@ exports.postCompose = (req,res,next) => {
                 console.log('post save')
                 if (!err){
                     res.redirect("/");
+                }else{
+                  console.log(err);
                 }
               });
           }else{
