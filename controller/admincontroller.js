@@ -1,6 +1,9 @@
 const Post = require('../models/post')
 
+const User = require('../models/user')
+
 const fs = require('fs')
+const passport = require('passport')
 
 
 const deleteFile = (filepath) => {
@@ -25,35 +28,7 @@ exports.getCompose = (req,res,next)=> {
 }
 
 
-// exports.getDelCnf = (req, res, next)=> {
-//   res.render("delCnf");
-// }
 
-// exports.postDelCnf = (req,res,next)=> {
-
-//     const currID =req.params.id;
-//     console.log(currID);
-//     res.render("delCnf",{id : currID});
-//   }
-
-
-// exports.postDelete = (req,res,next)=> {
-//     const currEmail = req.body.delEmail;
-//     const currID = req.body.button;
-//     console.log(currID);
-//     Post.findOne({_id: currID},function(err,obj){
-//       if(obj.email == currEmail){
-//         Post.findByIdAndRemove(currID,function(err){
-//           if(!err){
-//             console.log("Successfully Deleted");
-//             res.redirect("/");
-//           }
-//         });
-//       }else{
-//         res.render("Delete");
-//       }
-//     })
-// }
 
 exports.getSignup = (req,res,next) => {
   res.render("signup");
@@ -65,7 +40,19 @@ exports.postSignup = (req,res,next) => {
   const lastName = req.body.lastName;
   const password = req.body.password; 
   console.log(email + " " + firstName + " " + lastName + " " + password);
-  res.redirect("/login");
+  const user = new User({
+    fname: firstName,
+    lName: lastName,
+    Email: email,
+    Password: password
+  });
+  user.save(function(err){
+    if (!err){
+      
+    console.log('user saved');
+        res.redirect("/");
+    }
+  });
 }
 
 exports.getLogin = (req,res,next) => {
@@ -73,7 +60,7 @@ exports.getLogin = (req,res,next) => {
 }
 
 exports.postLogin = (req,res,next) => {
-  res.redirect("/");
+  passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login' });
 }
 
 exports.postCompose = (req,res,next) => {
@@ -111,8 +98,8 @@ exports.getExists = (req,res,next)=> {
 
 exports.deletePost = (req,res,next)=> {
   const postId = req.params.postId
- console.log('post deleting')
- console.log(postId);
+  console.log('post deleting')
+  console.log(postId);
 
   Post.findById({_id : postId})
       .then(post => {

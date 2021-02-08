@@ -58,77 +58,11 @@ app.use(multer (
  ).single('postimg')
 )
 
-// const postSchema = {
-//     title: String,
-//     content: String
-// };
-
-// const Post = mongoose.model("Post", postSchema);
 
 
 app.use(adminRoutes);
 
-// app.get("/",function(req,res){
-//     Post.find({}, function(err, posts){
-//         console.log(posts);
-//         res.render("home", {
-//           posts: posts
-//           });
-//       });
-// });
 
-// app.get("/compose",function(req,res){
-//     res.render("compose");
-// });
-
-// app.post("/compose",function(req,res){
-//     const post = new Post({
-//         title: req.body.postTitle,
-//         content: req.body.postBody
-//       });
-
-//       Post.findOne({title: req.body.postTitle},function(err,obj){
-//           if(!obj){
-//             post.save(function(err){
-//                 if (!err){
-//                     res.redirect("/");
-//                 }
-//               });
-//           }else{
-//               res.redirect("/exists");
-//           }
-//       });
-
-      
-// });
-
-// app.get("/exists",function(req,res){
-//     res.render("exists");
-// });
-// mongoose.connect("mongodb://localhost:27017/web4you", {useNewUrlParser: true});
-
-// app.post("/delete",function(req,res){
-
-//     delID = req.body.checkbox;
-//     res.render("delCnf");
-// });
-
-// app.post("/delCnf",function(req,res){
-//     console.log(delID);
-//     const delEmail = req.body.delEmail;
-//     Post.findOne({_id: delID},function(err,post){
-//         if(post.email == delEmail){
-//             Post.findByIdAndRemove(delID, function(err){
-//                 if(!err){
-//                   console.log("Successfully deleted...");
-//                   res.redirect("/");
-//                 }
-//               });
-//         }else{
-//             console.log("Cannot Delete!");
-//         }
-//     });
-// });
 
 app.listen(3000, function() {
     console.log("Server started on port 3000");
