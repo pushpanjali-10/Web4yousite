@@ -80,12 +80,13 @@ exports.getSignup = function (req,res,next) {
 };
 
 exports.postSignup = function (req,res,next) {
+  console.log("postSignup");
   const email = req.body.signup_email;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const password = req.body.password; 
   console.log(email + " " + firstName + " " + lastName + " " + password);
-  res.redirect("/");
+  res.redirect("/login");
 };
 
 exports.getLogin = function(req,res,next) {

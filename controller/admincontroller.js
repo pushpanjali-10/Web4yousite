@@ -56,7 +56,7 @@ exports.postSignup = (req,res,next) => {
   const lastName = req.body.lastName;
   const password = req.body.password; 
   console.log(email + " " + firstName + " " + lastName + " " + password);
-  res.redirect("/");
+  res.redirect("/login");
 }
 
 exports.getLogin = (req,res,next) => {
