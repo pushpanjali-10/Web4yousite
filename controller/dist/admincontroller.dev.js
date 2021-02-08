@@ -2,6 +2,9 @@
 
 var Post = require('../models/post');
 
+const User = require('../models/user');
+const passport = require('passport');
+
 exports.getHome = function (req, res, next) {
   Post.find({}, function (err, posts) {
     console.log(posts);
@@ -16,36 +19,6 @@ exports.getCompose = function (req, res, next) {
 
   res.render("compose");
 };
-
-// exports.postDelCnf = function(req,res,next) {
-
-//   const currID = req.params.id;
-//   console.log(currID);
-
-//   res.render("delCnf",{id : currID});
-// };
-
-// exports.getDelCnf = function(req,res,next) {
-//   res.render("delCnf")
-// }
-
-// exports.postDelete = function(req,res,next){
-//   const currEmail = req.body.delEmail;
-//   const currID = req.body.button;
-//   console.log(currID);
-//   Post.findOne({_id: currID},function(err,obj){
-//     if(obj.email == currEmail){
-//       Post.findByIdAndRemove(currID,function(err){
-//         if(!err){
-//           console.log("Successfully Deleted");
-//           res.redirect("/");
-//         }
-//       });
-//     }else{
-//       res.render("Delete");
-//     }
-//   })
-// };
 
 
 exports.postCompose = function (req, res, next) {
@@ -86,7 +59,19 @@ exports.postSignup = function (req,res,next) {
   const lastName = req.body.lastName;
   const password = req.body.password; 
   console.log(email + " " + firstName + " " + lastName + " " + password);
-  res.redirect("/login");
+  const user = new User({
+    fname: firstName,
+    lName: lastName,
+    Email: email,
+    Password: password
+  });
+  user.save(function(err){
+    
+    if (!err){
+      console.log('user saved');
+        res.redirect("/");
+    }
+  });
 };
 
 exports.getLogin = function(req,res,next) {
@@ -94,7 +79,7 @@ exports.getLogin = function(req,res,next) {
 };
 
 exports.postLogin = function(req,res,next){
-  res.redirect("/");
+  passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login' });
 };
 
 exports.deletePost = function (req,res,next) {

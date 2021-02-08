@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const adminController = require('../controller/admincontroller')
+const passport = require('passport')
 
 
 router.get('/', adminController.getHome);
