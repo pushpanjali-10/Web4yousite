@@ -11,9 +11,9 @@ router.post('/compose',adminController.postCompose)
 
 router.get('/exists',adminController.getExists)
 
-router.post('/delCnf/:id',adminController.postDelCnf)
+// router.post('/delCnf/:id',adminController.postDelCnf)
 
-router.post('/delete',adminController.postDelete)
+// router.post('/delete',adminController.postDelete)
 
 router.get('/signup',adminController.getSignup)
 
@@ -24,5 +24,7 @@ router.get('/login',adminController.getLogin)
 router.post('/login',adminController.postLogin)
 
 // router.get('/delCnf',adminController.getDelCnf)
+
+router.delete('/delete/:postId',adminController.deletePost)
 
 module.exports = router
