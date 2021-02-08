@@ -47,6 +47,7 @@ exports.postDelete = function(req,res,next){
   })
 };
 
+
 exports.postCompose = function (req, res, next) {
   var post = new Post({
     title: req.body.postTitle,
@@ -71,4 +72,26 @@ exports.postCompose = function (req, res, next) {
 
 exports.getExists = function (req, res, next) {
   res.render("exists");
+};
+
+
+exports.getSignup = function (req,res,next) {
+  res.render("signup");
+};
+
+exports.postSignup = function (req,res,next) {
+  const email = req.body.signup_email;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const password = req.body.password; 
+  console.log(email + " " + firstName + " " + lastName + " " + password);
+  res.redirect("/");
+};
+
+exports.getLogin = function(req,res,next) {
+  res.render("login");
+};
+
+exports.postLogin = function(req,res,next){
+  res.redirect("/");
 };

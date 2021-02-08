@@ -46,6 +46,27 @@ exports.postDelete = (req,res,next)=> {
     })
 }
 
+exports.getSignup = (req,res,next) => {
+  res.render("signup");
+}
+
+exports.postSignup = (req,res,next) => {
+  const email = req.body.signup_email;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const password = req.body.password; 
+  console.log(email + " " + firstName + " " + lastName + " " + password);
+  res.redirect("/");
+}
+
+exports.getLogin = (req,res,next) => {
+  res.render("login");
+}
+
+exports.postLogin = (req,res,next) => {
+  res.redirect("/");
+}
+
 exports.postCompose = (req,res,next) => {
     const title = req.body.postTitle;
     const imageUrl = req.file.path;
