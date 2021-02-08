@@ -29,31 +29,31 @@ exports.getCompose = (req,res,next)=> {
 //   res.render("delCnf");
 // }
 
-exports.postDelCnf = (req,res,next)=> {
+// exports.postDelCnf = (req,res,next)=> {
 
-    const currID =req.params.id;
-    console.log(currID);
-    res.render("delCnf",{id : currID});
-  }
+//     const currID =req.params.id;
+//     console.log(currID);
+//     res.render("delCnf",{id : currID});
+//   }
 
 
-exports.postDelete = (req,res,next)=> {
-    const currEmail = req.body.delEmail;
-    const currID = req.body.button;
-    console.log(currID);
-    Post.findOne({_id: currID},function(err,obj){
-      if(obj.email == currEmail){
-        Post.findByIdAndRemove(currID,function(err){
-          if(!err){
-            console.log("Successfully Deleted");
-            res.redirect("/");
-          }
-        });
-      }else{
-        res.render("Delete");
-      }
-    })
-}
+// exports.postDelete = (req,res,next)=> {
+//     const currEmail = req.body.delEmail;
+//     const currID = req.body.button;
+//     console.log(currID);
+//     Post.findOne({_id: currID},function(err,obj){
+//       if(obj.email == currEmail){
+//         Post.findByIdAndRemove(currID,function(err){
+//           if(!err){
+//             console.log("Successfully Deleted");
+//             res.redirect("/");
+//           }
+//         });
+//       }else{
+//         res.render("Delete");
+//       }
+//     })
+// }
 
 exports.getSignup = (req,res,next) => {
   res.render("signup");
@@ -132,5 +132,4 @@ exports.deletePost = (req,res,next)=> {
       .catch(err => {
         console.log(err);
       })
-
 }
