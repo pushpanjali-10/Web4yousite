@@ -22,4 +22,6 @@ router.post('/login',adminController.postLogin)
 
 router.delete('/delete/:postId',adminController.deletePost)
 
+router.get('/google',adminController.getGoogle)
+
 module.exports = router
