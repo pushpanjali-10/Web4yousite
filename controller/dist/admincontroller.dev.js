@@ -6,6 +6,8 @@ const User = require('../models/user');
 
 const passport = require('passport');
 
+const passportSetup = require('../config/passport-setup');
+
 exports.getHome = function (req, res, next) {
   Post.find({}, function (err, posts) {
     console.log(posts);
@@ -15,9 +17,8 @@ exports.getHome = function (req, res, next) {
   });
 };
 
+// ---Compose Routes---
 exports.getCompose = function (req, res, next) {
-
-
   res.render("compose");
 };
 
@@ -44,10 +45,12 @@ exports.postCompose = function (req, res, next) {
   });
 };
 
+
 exports.getExists = function (req, res, next) {
   res.render("exists");
 };
 
+// ---Signup Routes---
 
 exports.getSignup = function (req,res,next) {
   res.render("signup");
@@ -77,6 +80,8 @@ exports.postSignup = function (req,res,next) {
   });
 };
 
+// ---Login Routes---
+
 exports.getLogin = function(req,res,next) {
   res.render("login");
 };
@@ -84,6 +89,8 @@ exports.getLogin = function(req,res,next) {
 exports.postLogin = function(req,res,next){
   passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login' });
 };
+
+// ---Delete Routes---
 
 exports.deletePost = function (req,res,next) {
   const postId = req.params.postId
@@ -109,3 +116,7 @@ exports.deletePost = function (req,res,next) {
         console.log(err);
       })
 };
+
+exports.getGoogle = passport.authenticate('google',{
+  scope: ['profile']
+});

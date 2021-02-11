@@ -4,7 +4,8 @@ const User = require('../models/user')
 
 const fs = require('fs')
 const passport = require('passport')
-
+const post = require('../models/post')
+const passportSetup = require('../config/passport-setup');
 
 const deleteFile = (filepath) => {
   fs.unlink(filepath, (err)=> {
@@ -23,9 +24,7 @@ exports.getHome = (req,res,next) => {
       });
 }
 
-exports.getCompose = (req,res,next)=> {
-    res.render("compose");
-}
+
 
 
 
@@ -39,22 +38,27 @@ exports.postSignup = (req,res,next) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const password = req.body.password; 
-  console.log(email + " " + firstName + " " + lastName + " " + password);
-  const user = new User({
-    fName: firstName,
-    lName: lastName,
-    Email: email,
-    Password: password
-  });
-  user.save(function(err){
-    console.log('callback working');
-    console.log(err);
-    console.log(email + " " + firstName + " " + lastName + " " + password);
-    if (!err){
-      console.log('user saved');
-      res.redirect("/");
+  
+  User.find({Email:email},function(err,obj){
+    if(!obj){
+      const user = new User({
+        fName: firstName,
+        lName: lastName,
+        Email: email,
+        Password: password
+      });
+      user.save(function(err){
+        console.log(email + " " + firstName + " " + lastName + " " + password);
+        if (!err){
+          console.log('user saved');
+          res.redirect("/login");
+        }
+      });
+    }else{
+      res.send("<h1>Error,email already exists</h1>");
     }
-  });
+  })
+  
 }
 
 exports.getLogin = (req,res,next) => {
@@ -63,6 +67,10 @@ exports.getLogin = (req,res,next) => {
 
 exports.postLogin = (req,res,next) => {
   passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login' });
+}
+
+exports.getCompose = (req,res,next)=> {
+  res.render("compose");
 }
 
 exports.postCompose = (req,res,next) => {
@@ -124,3 +132,6 @@ exports.deletePost = (req,res,next)=> {
         console.log(err);
       })
 }
+exports.getGoogle = passport.authenticate('google',{
+  scope: ['profile']
+});
